@@ -1,0 +1,4 @@
+SELECT id, COUNT(*)
+FROM cars
+GROUP BY id
+HAVING COUNT(*) > 1;

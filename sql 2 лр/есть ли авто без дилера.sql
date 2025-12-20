@@ -1,0 +1,1 @@
+SELECT COUNT(*) FROM cars WHERE dealer_id IS NULL;

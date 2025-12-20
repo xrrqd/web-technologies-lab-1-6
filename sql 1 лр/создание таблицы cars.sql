@@ -1,0 +1,9 @@
+CREATE TABLE cars (
+    id SERIAL PRIMARY KEY,
+    firm VARCHAR(100) NOT NULL,
+    model VARCHAR(100) NOT NULL,
+    year INTEGER NOT NULL,
+    power INTEGER NOT NULL,
+    color VARCHAR(50) NOT NULL,
+    price DECIMAL(12,2) NOT NULL
+);
