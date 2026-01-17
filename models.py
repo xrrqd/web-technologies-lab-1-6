@@ -92,7 +92,7 @@ def update_dealer(dealer_id: int, dealer: DealerUpdate):
             fields = []
             values = []
             for key, value in dealer.model_dump(exclude_unset=True).items():
-                fields.append(f"'{key}' = %s")
+                fields.append(f"{key} = %s")
                 values.append(value)
             if not fields:
                 return None
