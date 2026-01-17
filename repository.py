@@ -2,7 +2,7 @@ from models import (
     get_all_cars, get_car_by_id, create_car, update_car, delete_car,
     get_all_dealers, get_dealer_by_id, create_dealer, update_dealer, delete_dealer
 )
-from schemas import Car, CarCreate, CarUpdate, Dealer, DealerCreate, DealerUpdate
+from schemas import CarCreate, CarUpdate, DealerCreate, DealerUpdate
 
 
 class CarRepository:

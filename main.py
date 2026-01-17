@@ -1,8 +1,8 @@
 from fastapi import FastAPI, HTTPException, status
-"""from models import (
+from models import (
     get_all_cars, get_car_by_id, create_car, update_car, delete_car,
     get_all_dealers, get_dealer_by_id, create_dealer, update_dealer, delete_dealer
-)"""
+)
 from repository import CarRepository, DealerRepository
 from event_decorator import send_car_event, send_dealer_event
 from schemas import Car, CarCreate, CarUpdate, Dealer, DealerCreate, DealerUpdate
@@ -14,7 +14,7 @@ app = FastAPI(title="Car Dealers API", version="3.1")
 # контроллер для автомобилей
 
 # лабораторная работа №3
-"""@app.get("/api/cars", response_model=list[Car])
+@app.get("/api/cars", response_model=list[Car])
 def get_cars():
     cars = get_all_cars()
     if not cars:
@@ -26,10 +26,10 @@ def get_car(car_id: int):
     car = get_car_by_id(car_id)
     if not car:
         raise HTTPException(status_code=404, detail=(f"Автомобиль с id {car_id} не найдена"))
-    return car"""
+    return car
 
 # лабораторная работа №4
-"""@app.post("/api/cars", response_model=Car, status_code=status.HTTP_201_CREATED)
+@app.post("/api/cars", response_model=Car, status_code=status.HTTP_201_CREATED)
 def create_new_car(car: CarCreate):
     try:
         new_car = create_car(car)
@@ -48,7 +48,7 @@ def update_existing_car(car_id: int, car: CarUpdate):
 def delete_existing_car(car_id: int):
     if not delete_car(car_id):
         raise HTTPException(status_code=404, detail=(f"Автомобиль с id {car_id} не найден"))
-    return"""
+    return
 
 
 # лабораторная работа №5
@@ -97,7 +97,7 @@ def delete_existing_car(car_id: int):
 #контроллер для дилеров
 
 # лабораторная работа №3
-"""@app.get("/api/dealers", response_model=list[Dealer])
+@app.get("/api/dealers", response_model=list[Dealer])
 def get_dealers():
     dealers = get_all_dealers()
     if not dealers:
@@ -109,10 +109,10 @@ def get_dealer(dealer_id: int):
     dealer = get_dealer_by_id(dealer_id)
     if not dealer:
         raise HTTPException(status_code=404, detail=(f"Дилер с id {dealer_id} не найден"))
-    return dealer"""
+    return dealer
 
 # лабораторная работа №4
-"""@app.post("/api/dealers", response_model=Dealer, status_code=status.HTTP_201_CREATED)
+@app.post("/api/dealers", response_model=Dealer, status_code=status.HTTP_201_CREATED)
 def create_new_dealer(dealer: DealerCreate):
     try:
         new_dealer = create_dealer(dealer)
@@ -137,7 +137,7 @@ def delete_existing_dealer(dealer_id: int):
             status_code=404,
             detail=f"Дилер с id {dealer_id} не найден"
         )
-    return"""
+    return
     
 # лабораторная работа №5
 @app.get("/api/dealers", response_model=list[Dealer])

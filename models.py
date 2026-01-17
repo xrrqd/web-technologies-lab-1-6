@@ -84,6 +84,7 @@ def create_dealer(dealer: DealerCreate):
             dealer_id = cursor.fetchone()["id"]
             conn.commit()
             return {**dealer.model_dump(), "id": dealer_id}
+        
 
 def update_dealer(dealer_id: int, dealer: DealerUpdate):
     with get_db_connection() as conn:
