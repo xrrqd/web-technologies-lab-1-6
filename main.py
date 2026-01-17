@@ -1,12 +1,32 @@
 from fastapi import FastAPI, HTTPException, status
+from rabbitmq_client import RabbitMQClient
 from models import (
     get_all_cars, get_car_by_id, create_car, update_car, delete_car,
     get_all_dealers, get_dealer_by_id, create_dealer, update_dealer, delete_dealer
 )
 from repository import CarRepository, DealerRepository
-from event_decorator import send_car_event, send_dealer_event
 from schemas import Car, CarCreate, CarUpdate, Dealer, DealerCreate, DealerUpdate
+import logging
 
+
+logging.basicConfig(level=logging.INFO)
+
+
+rabbitmq_client = RabbitMQClient()
+
+
+def send_car_event(event_type: str):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            result = func(*args, **kwargs)
+            
+            car_data = result
+            rabbitmq_client.send_event(event_type, car_data)
+            return result
+        return wrapper
+    print(f"[DECORATOR] Вызов send_event для {event_type}")
+    return decorator
+import time; time.sleep(0.1)
 
 app = FastAPI(title="Car Dealers API", version="3.1")
 
@@ -155,7 +175,6 @@ def get_dealer(dealer_id: int):
     return dealer
 
 @app.post("/api/dealers", response_model=Dealer, status_code=status.HTTP_201_CREATED)
-@send_dealer_event("CREATE")
 def create_new_dealer(dealer: DealerCreate):
     try:
         new_dealer = DealerRepository.create(dealer)
@@ -164,7 +183,6 @@ def create_new_dealer(dealer: DealerCreate):
         raise HTTPException(status_code=500, detail=str(e))
 
 @app.put("/api/dealers/{dealer_id}", response_model=Dealer)
-@send_dealer_event("UPDATE")
 def update_existing_dealer(dealer_id: int, dealer: DealerUpdate):
     updated_dealer = DealerRepository.update(dealer_id, dealer)
     if not updated_dealer:
@@ -176,7 +194,6 @@ def update_existing_dealer(dealer_id: int, dealer: DealerUpdate):
 
 
 @app.delete("/api/dealers/{dealer_id}", status_code=status.HTTP_204_NO_CONTENT)
-@send_dealer_event("DELETE")
 def delete_existing_dealer(dealer_id: int):
     if not DealerRepository.delete(dealer_id):
         raise HTTPException(status_code=404, detail=f"Дилер с id {dealer_id} не найден")

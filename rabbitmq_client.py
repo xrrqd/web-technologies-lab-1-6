@@ -7,12 +7,18 @@ load_dotenv()
 
 class RabbitMQClient:
     def __init__(self):
+        load_dotenv()
+   
+        print("RABBITMQ_HOST:", os.getenv("RABBITMQ_HOST"))
+        print("RABBITMQ_EXCHANGE:", os.getenv("RABBITMQ_EXCHANGE"))
+        print("RABBITMQ_QUEUE:", os.getenv("RABBITMQ_QUEUE"))
+    
         self.host = os.getenv("RABBITMQ_HOST", "localhost")
         self.port = int(os.getenv("RABBITMQ_PORT", 5672))
         self.user = os.getenv("RABBITMQ_USER", "xrrqd")
         self.password = os.getenv("RABBITMQ_PASS", "zkZ-tk4-pX8-2md")
-        self.exchange = os.getenv("RABBITMQ_EXCHANGE", "car_events")
-        self.queue = os.getenv("RABBITMQ_QUEUE", "car_queue")
+        self.exchange = os.getenv("RABBITMQ_EXCHANGE", "cars_events_exchange")
+        self.queue = os.getenv("RABBITMQ_QUEUE", "cars_events_queue")
         
         self.connection = None
         self.channel = None
@@ -40,8 +46,8 @@ class RabbitMQClient:
             
             self.channel.queue_bind(
                 queue=self.queue,
-                exchange=self.exchange,
-                routing_key=''
+                exchange=self.exchange, 
+                routing_key=' '
             )
             print("Подключение к RabbitMQ установлено")
         except Exception as e:
