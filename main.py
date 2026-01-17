@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from rabbitmq_client import RabbitMQClient
 from models import (
     get_all_cars, get_car_by_id, create_car, update_car, delete_car,
@@ -29,6 +30,15 @@ def send_car_event(event_type: str):
 import time; time.sleep(0.1)
 
 app = FastAPI(title="Car Dealers API", version="3.1")
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 
 # контроллер для автомобилей
